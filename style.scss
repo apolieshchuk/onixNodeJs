@@ -1,0 +1,61 @@
+.flex{
+  display: flex;
+}
+.wrapper{
+  flex-direction: column;
+
+  .header{
+    margin-top: 50px;
+    justify-content: center;
+    margin-bottom: 20px;
+    form input{
+      margin-right: 30px;
+      height: 40px;
+      outline:none;
+
+      &:first-child{
+        border-radius: 20px;
+        border: solid 1px black;
+        width: 300px;
+        padding-left: 20px;
+      }
+
+      &:last-child{
+        border-radius: 20px;
+        border: solid 1px black;
+        width: 200px;
+        background-color: #6699FF;
+        color: white;
+      }
+    }
+  }
+
+  .content{
+    justify-content: center;
+    .weather-wrapper{
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      width: 90px;
+      border-radius: 15px;
+      margin-right: 5px;
+      .weather-header{
+        height: 30px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background-color: lightgray;
+        text-align: center;
+        padding-top: 7px;
+        vertical-align: middle;
+      }
+      .weather-footer{
+        justify-content: center;
+        border-radius: 5px;
+        background-color: lightgray;
+        img{
+          width: 50px;
+        }
+      }
+    }
+  }
+}
