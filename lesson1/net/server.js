@@ -1,5 +1,5 @@
 // Include Nodejs' net module.
-const *** = require('***');
+const net = require('net');
 
 // The port on which the server is listening.
 const port = ****;

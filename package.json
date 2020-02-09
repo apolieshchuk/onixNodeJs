@@ -7,6 +7,7 @@
     "commitizen": "^4.0.3"
   },
   "devDependencies": {
+    "cz-conventional-changelog": "^3.1.0",
     "eslint": "^6.8.0"
   },
   "scripts": {
@@ -21,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/apolieshchuk/onixNodeJs/issues"
   },
-  "homepage": "https://github.com/apolieshchuk/onixNodeJs#readme"
+  "homepage": "https://github.com/apolieshchuk/onixNodeJs#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

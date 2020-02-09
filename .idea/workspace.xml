@@ -2,28 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="41833aa3-7265-4d77-aacd-b5ee5328bb2d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lesson1/array/every.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/array/filter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/array/forEach.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/array/map.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/array/reduce.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/array/some.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/array/sort.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/http/client.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/http/server.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/net/client.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/net/server.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/udp/client.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lesson1/udp/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/entryTest/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/entryTest/index.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson1/array/every.js" beforeDir="false" afterPath="$PROJECT_DIR$/lesson1/array/every.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson1/array/filter.js" beforeDir="false" afterPath="$PROJECT_DIR$/lesson1/array/filter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson1/array/forEach.js" beforeDir="false" afterPath="$PROJECT_DIR$/lesson1/array/forEach.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson1/array/map.js" beforeDir="false" afterPath="$PROJECT_DIR$/lesson1/array/map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson1/array/reduce.js" beforeDir="false" afterPath="$PROJECT_DIR$/lesson1/array/reduce.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson1/array/some.js" beforeDir="false" afterPath="$PROJECT_DIR$/lesson1/array/some.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson1/array/sort.js" beforeDir="false" afterPath="$PROJECT_DIR$/lesson1/array/sort.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson1/net/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/lesson1/net/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lesson1/udp/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/lesson1/udp/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/entryTest/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/entryTest/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/entryTest/style.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/entryTest/style.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,8 +45,10 @@
     <property name="NewWatcherDialog.advanced.open" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.13.0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="SCSS" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.HTML" />
   </component>
   <component name="RecentsManager">
@@ -92,7 +85,7 @@
       <workItem from="1580004213711" duration="4310000" />
       <workItem from="1580026042964" duration="18532000" />
       <workItem from="1581093645525" duration="1123000" />
-      <workItem from="1581280948802" duration="249000" />
+      <workItem from="1581280948802" duration="3186000" />
     </task>
     <servers />
   </component>
