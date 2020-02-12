@@ -16,6 +16,7 @@ server.on('message', (msg, rinfo) => {
     console.log(`server got: ${msg.toString()} from ${rinfo.address}:${rinfo.port}`);
 });
 
+// on created?
 server.on('listening', () => {
     const address = server.address();
     console.log(`server listening ${address.address}:${address.port}`);

@@ -1,10 +1,10 @@
-const ***** = require('*****');
+const dgram = require('dgram');
 
 const PORT = 41234;
-const HOST = '***.0.0.1';
+const HOST = '0.0.0.0';
 
 // creating a udp server
-const client = dgram.createSocket('****');
+const client = dgram.createSocket('udp4');
 // buffer msg
 const message = Buffer.from('My KungFu is Good!');
 
@@ -12,7 +12,7 @@ const message = Buffer.from('My KungFu is Good!');
 client.send(message, 0, message.length, PORT, HOST, (err) => {
     if (err) throw err;
 
-    console.log('UDP message sent to ' + ${HOST} + ':' + ${PORT});
+    console.log(`UDP message sent to ${HOST} : ${PORT}`);
     // close connection
     client.close();
 });
