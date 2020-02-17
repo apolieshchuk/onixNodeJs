@@ -18,4 +18,14 @@ const router = Router();
  */
 router.get('/', UserComponent.findAll);
 
+/**
+ * Route add user to db
+ * @name /v1/users/create
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+router.post('/create', UserComponent.addUser);
+
 module.exports = router;

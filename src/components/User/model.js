@@ -6,6 +6,10 @@ const UserSchema = new Schema({
     type: String,
     trim: true,
   },
+  fullName: {
+    type: String,
+    trim: true,
+  },
 }, {
   collection: 'usermodel',
   versionKey: false,
