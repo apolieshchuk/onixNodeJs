@@ -15,7 +15,7 @@ module.exports = {
   /**
      * @exports
      * @method addUser
-     * @param {}
+     * @param user{email, fullName}
      * @summary add user to collection db
      * @returns Promise<UserModel[]>
      */
@@ -26,7 +26,7 @@ module.exports = {
   /**
      * @exports
      * @method findUser
-     * @param {}
+     * @param String email
      * @summary get finded user object
      * @returns Promise<UserModel[]>
      */
@@ -37,18 +37,18 @@ module.exports = {
   /**
      * @exports
      * @method updateUser
-     * @param {}
+     * @param user{email, newFullName}
      * @summary in user.email change fullName on user.fullName
      * @returns Promise<UserModel[]>
      */
   async updateUser(user) {
-    return UserModel.update({ email: user.email }, { fullName: user.newFullName });
+    return UserModel.updateMany({ email: user.email }, { fullName: user.newFullName });
   },
 
   /**
      * @exports
      * @method deleteUser
-     * @param {}
+     * @param String email
      * @summary in user.email change fullName on user.fullName
      * @returns Promise<UserModel[]>
      */

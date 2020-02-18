@@ -15,4 +15,5 @@ const UserSchema = new Schema({
   versionKey: false,
 });
 
+
 module.exports = connections.model('UserModel', UserSchema);

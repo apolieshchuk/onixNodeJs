@@ -4,6 +4,7 @@
   "description": "",
   "main": "entryTest/script.js",
   "dependencies": {
+    "@hapi/joi": "^17.1.0",
     "@types/express": "4.17.2",
     "body-parser": "1.18.2",
     "commitizen": "4.0.3",
