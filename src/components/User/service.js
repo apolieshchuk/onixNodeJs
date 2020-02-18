@@ -1,6 +1,7 @@
 const UserModel = require('./model');
 
 module.exports = {
+
   /**
      * @exports
      * @method findAll
@@ -31,7 +32,7 @@ module.exports = {
      * @returns Promise<UserModel[]>
      */
   async findUser(email) {
-    return UserModel.find({ email });
+    return UserModel.findOne({ email });
   },
 
   /**
@@ -42,7 +43,7 @@ module.exports = {
      * @returns Promise<UserModel[]>
      */
   async updateUser(user) {
-    return UserModel.updateMany({ email: user.email }, { fullName: user.newFullName });
+    return UserModel.updateOne({ email: user.email }, { fullName: user.newFullName });
   },
 
   /**
@@ -53,6 +54,7 @@ module.exports = {
      * @returns Promise<UserModel[]>
      */
   async deleteUser(email) {
+    // const user = await UserModel.find({ email });
     return UserModel.deleteOne({ email });
   },
 };

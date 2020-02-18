@@ -30,7 +30,7 @@ async function findAll(req, res, next) {
 async function addUser(req, res, next) {
   try {
     // Validation of request data
-    const { error } = Joi.validate(req.body);
+    const { error } = Joi.schema.validate(req.body);
 
     // if data not valid
     if (error) {
@@ -83,7 +83,7 @@ async function findUser(req, res, next) {
 async function updateUser(req, res, next) {
   try {
     // Validation of request data
-    const { error } = Joi.validate(req.body);
+    const { error } = Joi.schema.validate(req.body);
 
     // if data not valid
     if (error) {
@@ -127,6 +127,18 @@ async function updateUser(req, res, next) {
  */
 async function deleteUser(req, res, next) {
   try {
+    // Validation of request data
+    const { error } = Joi.deleteSchema.validate(req.body);
+
+    // if data not valid
+    if (error) {
+      res.status(400).json({
+        status: `400 ${http.STATUS_CODES[400]}`,
+        error: error.details[0].message.replace(/['"]/g, ''),
+      });
+      throw new Error(error);
+    }
+
     // get delete status
     const delStatus = await UserService.deleteUser(req.body.email);
     // if user deleted
