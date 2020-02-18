@@ -21,7 +21,7 @@ module.exports = {
      * @returns Promise<UserModel[]>
      */
   async addUser(user) {
-    return UserModel.collection.insertOne(user);
+    return UserModel.create(user);
   },
 
   /**

@@ -20,6 +20,7 @@ const deleteSchema = Joi.object({
     .required(),
 });
 
+
 module.exports = {
   schema,
   deleteSchema,
