@@ -28,4 +28,34 @@ router.get('/', UserComponent.findAll);
  */
 router.post('/create', UserComponent.addUser);
 
+/**
+ * Find user in db
+ * @name /v1/users/find
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/find', UserComponent.findUser);
+
+/**
+ * Update user in db
+ * @name /v1/users/update
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+router.put('/update', UserComponent.updateUser);
+
+/**
+ * Delete user from db
+ * @name /v1/users/delete
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+router.delete('/delete', UserComponent.deleteUser);
+
 module.exports = router;

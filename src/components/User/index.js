@@ -39,7 +39,66 @@ async function addUser(req, res, next) {
   }
 }
 
+/**
+ * Find user in db
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
+async function findUser(req, res, next) {
+  try {
+    const user = await UserService.findUser(req.body.email);
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * For update user in db
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
+async function updateUser(req, res, next) {
+  try {
+    const updatedUser = {
+      email: req.body.email,
+      newFullName: req.body.name,
+    };
+
+    await UserService.updateUser(updatedUser);
+    res.status(200).end();
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * For delete user in db
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ * @returns {Promise < void >}
+ */
+async function deleteUser(req, res, next) {
+  try {
+    await UserService.deleteUser(req.body.email);
+    res.status(200).end();
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   findAll,
   addUser,
+  findUser,
+  updateUser,
+  deleteUser,
 };
