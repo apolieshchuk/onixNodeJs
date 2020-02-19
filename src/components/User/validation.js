@@ -12,16 +12,4 @@ const schema = Joi.object({
     .required(),
 });
 
-const deleteSchema = Joi.object({
-  email: Joi.string()
-    .email()
-    .min(5)
-    .max(30)
-    .required(),
-});
-
-
-module.exports = {
-  schema,
-  deleteSchema,
-};
+module.exports = schema;

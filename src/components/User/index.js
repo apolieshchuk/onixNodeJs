@@ -1,4 +1,5 @@
 const http = require('http');
+const mongoose = require('mongoose');
 const UserService = require('./service');
 const Joi = require('./validation');
 
@@ -30,7 +31,7 @@ async function findAll(req, res, next) {
 async function addUser(req, res, next) {
   try {
     // Validation of request data
-    const { error } = Joi.schema.validate(req.body);
+    const { error } = Joi.validate(req.body);
 
     // if data not valid
     if (error) {
@@ -83,7 +84,7 @@ async function findUser(req, res, next) {
 async function updateUser(req, res, next) {
   try {
     // Validation of request data
-    const { error } = Joi.schema.validate(req.body);
+    const { error } = Joi.validate(req.body);
 
     // if data not valid
     if (error) {
@@ -128,24 +129,14 @@ async function updateUser(req, res, next) {
 async function deleteUser(req, res, next) {
   try {
     // Validation of request data
-    const { error } = Joi.deleteSchema.validate(req.body);
-
-    // if data not valid
-    if (error) {
-      res.status(400).json({
-        status: `400 ${http.STATUS_CODES[400]}`,
-        error: error.details[0].message.replace(/['"]/g, ''),
-      });
-      throw new Error(error);
-    }
-
+    const id = mongoose.Types.ObjectId(req.body.id);
     // get delete status
-    const delStatus = await UserService.deleteUser(req.body.email);
+    const delStatus = await UserService.deleteUser(id);
     // if user deleted
     if (delStatus.deletedCount > 0) {
       res.status(200).json({
         status: 'deleted',
-        details: `delete user with email ${req.body.email}`,
+        details: `delete user with id ${req.body.id}`,
       });
     } else { // if nothing to delete
       res.status(200).json({

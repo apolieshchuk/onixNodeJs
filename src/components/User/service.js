@@ -53,8 +53,7 @@ module.exports = {
      * @summary in user.email change fullName on user.fullName
      * @returns Promise<UserModel[]>
      */
-  async deleteUser(email) {
-    // const user = await UserModel.find({ email });
-    return UserModel.deleteOne({ email });
+  async deleteUser(_id) {
+    return UserModel.remove({ _id });
   },
 };
