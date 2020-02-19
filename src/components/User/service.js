@@ -54,6 +54,6 @@ module.exports = {
      * @returns Promise<UserModel[]>
      */
   async deleteUser(_id) {
-    return UserModel.remove({ _id });
+    return UserModel.deleteOne({ _id });
   },
 };
