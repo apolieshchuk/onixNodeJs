@@ -16,6 +16,7 @@ async function findAll(req, res, next) {
     const users = await UserService.findAll();
     res.status(200).json(users);
   } catch (error) {
+    res.send(error.message);
     next(error);
   }
 }
@@ -52,6 +53,7 @@ async function addUser(req, res, next) {
       status: `200 ${http.STATUS_CODES[200]}`,
     });
   } catch (error) {
+    res.send(error.message);
     next(error);
   }
 }
@@ -69,6 +71,7 @@ async function findUser(req, res, next) {
     const user = await UserService.findUser(req.body.email);
     res.status(200).json(user);
   } catch (error) {
+    res.send(error.message);
     next(error);
   }
 }
@@ -114,6 +117,7 @@ async function updateUser(req, res, next) {
       });
     }
   } catch (error) {
+    res.send(error.message);
     next(error);
   }
 }
@@ -144,6 +148,7 @@ async function deleteUser(req, res, next) {
       });
     }
   } catch (error) {
+    res.send(error.message);
     next(error);
   }
 }
