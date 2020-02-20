@@ -1,5 +1,4 @@
 const http = require('http');
-const mongoose = require('mongoose');
 const UserService = require('./service');
 const Joi = require('./validation');
 
@@ -51,6 +50,7 @@ async function addUser(req, res, next) {
     await UserService.addUser(newUser);
     res.status(200).json({
       status: `200 ${http.STATUS_CODES[200]}`,
+      user: await UserService.findUser(req.body.email),
     });
   } catch (error) {
     res.send(error.message);
