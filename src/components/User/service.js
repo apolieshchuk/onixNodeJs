@@ -36,14 +36,31 @@ module.exports = {
   },
 
   /**
+   * @exports
+   * @method findUser by Id
+   * @param Number id
+   * @summary get finded user object by user id
+   * @returns Promise<UserModel[]>
+   */
+  async findUserById(_id) {
+    return UserModel.findOne({ _id });
+  },
+
+  /**
      * @exports
      * @method updateUser
-     * @param user{email, newFullName}
-     * @summary in user.email change fullName on user.fullName
+     * @param user {payload} ({id, email, name})
+     * @summary change name or/and email of payload.id
      * @returns Promise<UserModel[]>
      */
-  async updateUser(user) {
-    return UserModel.updateOne({ email: user.email }, { fullName: user.newFullName });
+  async updateUser(payload) {
+    if (payload.email) {
+      await UserModel.updateOne({ _id: payload.id }, { email: payload.email });
+    }
+    if (payload.name) {
+      await UserModel.updateOne({ _id: payload.id }, { fullName: payload.name });
+    }
+    return UserModel.findById(payload.id);
   },
 
   /**

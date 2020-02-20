@@ -31,29 +31,25 @@ async function findAll(req, res, next) {
 async function addUser(req, res, next) {
   try {
     // Validation of request data
-    const { error } = Joi.validate(req.body);
+    const { error } = Joi.addSchema.validate(req.body);
 
     // if data not valid
-    if (error) {
-      res.status(400).json({
-        status: `400 ${http.STATUS_CODES[400]}`,
-        error: error.details[0].message.replace(/['"]/g, ''),
-      });
-      throw new Error(error);
-    }
+    if (error) throw error;
 
     // if data valid
     const newUser = {
       email: req.body.email,
       fullName: req.body.name,
     };
-    await UserService.addUser(newUser);
+
+    // create new user
     res.status(200).json({
       status: `200 ${http.STATUS_CODES[200]}`,
-      user: await UserService.findUser(req.body.email),
+      user: await UserService.addUser(newUser),
     });
   } catch (error) {
-    res.send(error.message);
+    if (error.name === 'ValidationError') res.status(400);
+    res.send(`${error.name}.${error.message}`);
     next(error);
   }
 }
@@ -71,7 +67,8 @@ async function findUser(req, res, next) {
     const user = await UserService.findUser(req.body.email);
     res.status(200).json(user);
   } catch (error) {
-    res.send(error.message);
+    if (error.name === 'ValidationError') res.status(400);
+    res.send(`${error.name}.${error.message}`);
     next(error);
   }
 }
@@ -87,43 +84,32 @@ async function findUser(req, res, next) {
 async function updateUser(req, res, next) {
   try {
     // Validation of request data
-    const { error } = Joi.validate(req.body);
+    const { error } = Joi.updSchema.validate(req.body);
 
     // if data not valid
-    if (error) {
-      res.status(400).json({
-        status: `400 ${http.STATUS_CODES[400]}`,
-        error: error.details[0].message.replace(/['"]/g, ''),
-      });
-      throw new Error(error);
-    }
+    if (error) throw error;
 
-    const updatedUser = {
-      email: req.body.email,
-      newFullName: req.body.name,
-    };
-
-    // get update status
-    const updStatus = await UserService.updateUser(updatedUser);
-    // if db updated
-    if (updStatus.nModified > 0) {
+    // if data valid
+    const user = await UserService.updateUser(req.body);
+    if (user) {
       res.status(200).json({
         status: 'updated',
-        obj: await UserService.findUser(req.body.email),
+        obj: user,
       });
     } else { // if db not updated
-      res.status(200).json({
-        status: 'nothing to update',
+      res.status(400).json({
+        status: `user ID: ${req.body.id} not found`,
       });
     }
   } catch (error) {
-    res.send(error.message);
+    if (error.name === 'ValidationError') res.status(400);
+    res.send(`${error.name}.${error.message}`);
     next(error);
   }
 }
 
 /**
- * For delete user in db
+ * Delete user in db by user_id
  * @function
  * @param {express.Request} req
  * @param {express.Response} res
@@ -133,9 +119,13 @@ async function updateUser(req, res, next) {
 async function deleteUser(req, res, next) {
   try {
     // Validation of request data
-    const id = mongoose.Types.ObjectId(req.body.id);
+    const { error } = Joi.delSchema.validate(req.body);
+
+    // if data not valid
+    if (error) throw error;
+
     // get delete status
-    const delStatus = await UserService.deleteUser(id);
+    const delStatus = await UserService.deleteUser(req.body.id);
     // if user deleted
     if (delStatus.deletedCount > 0) {
       res.status(200).json({
@@ -148,7 +138,8 @@ async function deleteUser(req, res, next) {
       });
     }
   } catch (error) {
-    res.send(error.message);
+    if (error.name === 'ValidationError') res.status(400);
+    res.send(`${error.name}.${error.message}`);
     next(error);
   }
 }
