@@ -1,39 +1,74 @@
-const Joi = require('@hapi/joi');
-Joi.objectId = require('joi-objectid')(Joi);
+const Validation = require('../validation');
 
-// add user validation schema
-const addSchema = Joi.object({
-  email: Joi.string()
-    .email()
-    .min(5)
-    .max(30)
-    .required(),
+/**
+ * @exports
+ * @class
+ * @extends Validation
+ */
+class UserValidation extends Validation {
+    /**
+     * @param {String} data.id - objectId
+     * @returns
+     * @memberof UserValidation
+     */
+    findById(data) {
+        return this.Joi
+            .object({
+                id: this.Joi.objectId(),
+            })
+            .validate(data);
+    }
 
-  name: Joi.string()
-    .pattern(new RegExp('^[a-zA-Z\\s]{2,30}$'))
-    .required(),
-});
+    /**
+     * @param {String} profile.email
+     * @param {String} profile.fullName
+     * @returns
+     * @memberof UserValidation
+     */
+    create(profile) {
+        return this.Joi
+            .object({
+                email: this.Joi.string().email(),
+                fullName: this.Joi
+                    .string()
+                    .min(1)
+                    .max(30)
+                    .required(),
+            })
+            .validate(profile);
+    }
 
-// update user validation schema
-const updSchema = Joi.object({
-  id: Joi.objectId().required(),
+    /**
+     * @param {String} data.id - objectId
+     * @param {String} data.fullName
+     * @returns
+     * @memberof UserValidation
+     */
+    updateById(data) {
+        return this.Joi
+            .object({
+                id: this.Joi.objectId(),
+                fullName: this.Joi
+                    .string()
+                    .min(1)
+                    .max(30)
+                    .required(),
+            })
+            .validate(data);
+    }
 
-  email: Joi.string()
-    .email()
-    .min(5)
-    .max(30),
+    /**
+     * @param {String} data.id - objectId
+     * @returns
+     * @memberof UserValidation
+     */
+    deleteById(data) {
+        return this.Joi
+            .object({
+                id: this.Joi.objectId(),
+            })
+            .validate(data);
+    }
+}
 
-  name: Joi.string()
-    .pattern(new RegExp('^[a-zA-Z\\s]{2,30}$')),
-})
-  .or('name', 'email');
-
-// delete user validation schema
-const delSchema = Joi.object({ id: Joi.objectId().required() });
-
-
-module.exports = {
-  addSchema,
-  updSchema,
-  delSchema,
-};
+module.exports = new UserValidation();

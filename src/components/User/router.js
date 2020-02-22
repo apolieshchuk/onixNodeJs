@@ -19,43 +19,43 @@ const router = Router();
 router.get('/', UserComponent.findAll);
 
 /**
- * Route add user to db
- * @name /v1/users/create
+ * Route serving a user
+ * @name /v1/users/:id
  * @function
  * @inner
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-router.post('/create', UserComponent.addUser);
+router.get('/:id', UserComponent.findById);
 
 /**
- * Find user in db
- * @name /v1/users/find
+ * Route serving a new user
+ * @name /v1/users
  * @function
  * @inner
  * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
+ * @param {callback} middleware - Express middleware
  */
-router.get('/find', UserComponent.findUser);
+router.post('/', UserComponent.create);
 
 /**
- * Update user in db
- * @name /v1/users/update
+ * Route serving a new user
+ * @name /v1/users
  * @function
  * @inner
  * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
+ * @param {callback} middleware - Express middleware
  */
-router.put('/update', UserComponent.updateUser);
+router.put('/', UserComponent.updateById);
 
 /**
- * Delete user from db
- * @name /v1/users/delete
+ * Route serving a new user
+ * @name /v1/users
  * @function
  * @inner
- * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
+ * @param {string} path -Express path
+ * @param {callback} middleware - Express middleware
  */
-router.delete('/delete', UserComponent.deleteUser);
+router.delete('/', UserComponent.deleteById);
 
 module.exports = router;
