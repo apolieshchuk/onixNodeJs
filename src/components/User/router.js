@@ -1,8 +1,5 @@
 const { Router } = require('express');
-// const csrf = require('csurf');
 const UserComponent = require('../User');
-
-// const csrfProtection = csrf({ cookie: true });
 
 /**
  * Express router to mount user related functions on.

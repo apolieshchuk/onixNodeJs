@@ -19,7 +19,7 @@
     <!-- Main Content -->
     <div style="display: flex; padding: 20px">
         <!-- Form for add user -->
-        <form style="width: 200px; margin-right: 20px;" method="POST" action="/v1/users">
+        <form style="width: 200px; margin-right: 20px;" method="POST" action="/users">
             <p>Add user</p>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input name ="email" type="text" style="margin-bottom: 10px;" placeholder="email">
