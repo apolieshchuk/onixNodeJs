@@ -6,15 +6,15 @@
         <th></th>
         <th></th>
     </tr>
-    <% for (let i = 1; i < users.length; i++) { %>
+    <% for (let i = 0; i < users.length; i++) { %>
     <tr>
-        <td><%= i %></td>
+        <td><%= i + 1 %></td>
         <td><%= users[i].email  %></td>
         <td><%= users[i].fullName  %></td>
         
         <!-- Modal Window update user -->
-        <td><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Edit</a></td>
-        <div id="modal1" class="modal">
+        <td><a class="waves-effect waves-light btn modal-trigger" href="#modal1-<%=i%>">Edit</a></td>
+        <div id="modal1-<%=i%>" class="modal">
             <div class="modal-content">
                 <h4>Edit user</h4>
                 <form action="/v1/users/update" method='post'>
@@ -29,8 +29,8 @@
         </div>
         
         <!-- Modal Window delete user -->
-        <td><a class="waves-effect waves-light btn modal-trigger" href="#modal2">Delete</a></td>
-        <div id="modal2" class="modal">
+        <td><a class="waves-effect waves-light btn modal-trigger" href="#modal2-<%=i%>">Delete</a></td>
+        <div id="modal2-<%=i%>" class="modal">
             <div class="modal-content">
                 <h4>Confirm delete. Are you sure?</h4>
                 <form action="/v1/users/delete" method='post'>
