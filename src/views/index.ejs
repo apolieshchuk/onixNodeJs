@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toha NodeJS Mega Template</title>
+    <!-- Compiled and minified CSS MATERIALIZE-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+</head>
+<body>
+    <h1 style="text-align: center;"> Users database </h1>
+    
+    <!-- Main Content -->
+    <div style="display: flex; padding: 20px">
+        <!-- Form for add user -->
+        <form style="width: 200px; margin-right: 20px;" method="POST" action="/v1/users">
+            <p>Add user</p>
+            <input name ="email" type="text" style="margin-bottom: 10px;" placeholder="email">
+            <input name ="fullName" type="text" style="margin-bottom: 10px;" placeholder="full name">
+            <input type="submit" value="Add user">
+        </form>
+        <!-- Users table -->
+        <%- include('users.ejs', users); %>
+    </div>
+
+    <!-- Script for modal -->
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.modal').modal();
+        });
+    </script>
+</body>
+</html> 

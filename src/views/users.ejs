@@ -1,0 +1,45 @@
+<table style="border-spacing: 10px;">
+    <tr>
+        <th> # </th>
+        <th> Email </th>
+        <th> Full name </th>
+        <th></th>
+        <th></th>
+    </tr>
+    <% for (let i = 1; i < users.length; i++) { %>
+    <tr>
+        <td><%= i %></td>
+        <td><%= users[i].email  %></td>
+        <td><%= users[i].fullName  %></td>
+        
+        <!-- Modal Window update user -->
+        <td><a class="waves-effect waves-light btn modal-trigger" href="#modal1">Edit</a></td>
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Edit user</h4>
+                <form action="/v1/users/" method='post'>
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="id" value="<%= users[i]._id%>">
+                    <input name ="email" type="text" style="margin-bottom: 10px;" placeholder="email">
+                    <input name ="fullName" type="text" style="margin-bottom: 10px;" placeholder="full name">           
+                    <input type="submit" value="CONFIRM">
+                </form>
+            </div>
+        </div>
+        
+        <!-- Modal Window delete user -->
+        <td><a class="waves-effect waves-light btn modal-trigger" href="#modal2">Delete</a></td>
+        <div id="modal2" class="modal">
+            <div class="modal-content">
+                <h4>Confirm delete. Are you sure?</h4>
+                <form action="/v1/users/" method='post'>
+                    <input type="hidden" name="_method" value="delete">
+                    <input type="hidden" name="id" value="<%= users[i]._id%>">
+                    <input type="submit" class="btn" value="Delete">
+                    <input type="button" class="btn modal-close" value="Cancel">
+                </form>
+            </div>
+        </div>
+    </tr>
+    <% }; %>
+</table>
