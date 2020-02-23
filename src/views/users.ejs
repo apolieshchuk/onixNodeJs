@@ -18,9 +18,11 @@
             <div class="modal-content">
                 <h4>Edit user</h4>
                 <form action="/v1/users/" method='post'>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name="_method" value="put">
                     <input type="hidden" name="id" value="<%= users[i]._id%>">
-                    <input name ="email" type="text" style="margin-bottom: 10px;" placeholder="email">
+                    <input name ="email" value="<%= users[i].email%>" type="text"
+                     style="margin-bottom: 10px;" placeholder="email">
                     <input name ="fullName" type="text" style="margin-bottom: 10px;" placeholder="full name">           
                     <input type="submit" value="CONFIRM">
                 </form>
@@ -33,6 +35,7 @@
             <div class="modal-content">
                 <h4>Confirm delete. Are you sure?</h4>
                 <form action="/v1/users/" method='post'>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name="_method" value="delete">
                     <input type="hidden" name="id" value="<%= users[i]._id%>">
                     <input type="submit" class="btn" value="Delete">

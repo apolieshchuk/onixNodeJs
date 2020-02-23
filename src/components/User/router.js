@@ -1,5 +1,8 @@
 const { Router } = require('express');
+const csrf = require('csurf');
 const UserComponent = require('../User');
+
+const csrfProtection = csrf({ cookie: true });
 
 /**
  * Express router to mount user related functions on.
@@ -14,9 +17,10 @@ const router = Router();
  * @function
  * @inner
  * @param {string} path - Express path
+ * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware.
  */
-router.get('/', UserComponent.findAll);
+router.get('/', csrfProtection, UserComponent.findAll);
 
 /**
  * Route serving a user
@@ -36,11 +40,13 @@ router.get('/:id', UserComponent.findById);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-router.post('/', (req, res) => {
+router.post('/', csrfProtection, (req, res) => {
   // eslint-disable-next-line no-underscore-dangle
   const method = req.body._method;
   // eslint-disable-next-line no-underscore-dangle
   delete req.body._method;
+  // eslint-disable-next-line no-underscore-dangle
+  delete req.body._csrf;
   if (method === 'delete') {
     UserComponent.deleteById(req, res);
   } else if (method === 'put') {

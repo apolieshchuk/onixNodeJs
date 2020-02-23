@@ -16,6 +16,7 @@
         <!-- Form for add user -->
         <form style="width: 200px; margin-right: 20px;" method="POST" action="/v1/users">
             <p>Add user</p>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <input name ="email" type="text" style="margin-bottom: 10px;" placeholder="email">
             <input name ="fullName" type="text" style="margin-bottom: 10px;" placeholder="full name">
             <input type="submit" value="Add user">
