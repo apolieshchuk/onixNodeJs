@@ -82,17 +82,17 @@ async function create(req, res, next) {
     });
   } catch (error) {
     if (error instanceof ValidationError) {
-      return res.status(422).json({
-        message: error.name,
-        details: error.message,
+      const users = await UserService.findAll();
+      res.status(422).render('index.ejs', {
+        users,
+        csrfToken: req.csrfToken(),
+        error: error.message,
       });
     }
-
     res.status(500).json({
       message: error.name,
       details: error.message,
     });
-
     return next(error);
   }
 }
@@ -119,9 +119,11 @@ async function updateById(req, res, next) {
     });
   } catch (error) {
     if (error instanceof ValidationError) {
-      return res.status(422).json({
-        message: error.name,
-        details: error.message,
+      const users = await UserService.findAll();
+      res.status(422).render('index.ejs', {
+        users,
+        csrfToken: req.csrfToken(),
+        error: error.message,
       });
     }
 

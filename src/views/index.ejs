@@ -10,7 +10,12 @@
 </head>
 <body>
     <h1 style="text-align: center;"> Users database </h1>
-    
+    <!-- Error box -->
+    <% if (locals.error) { %>
+        <% for (let i=0; i < error.length; i++) { %>
+            <div style="text-align: center; color: red;"><%= error[i].message %></div> 
+        <% };%>
+    <% };%>
     <!-- Main Content -->
     <div style="display: flex; padding: 20px">
         <!-- Form for add user -->
