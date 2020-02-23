@@ -38,22 +38,43 @@ router.get('/:id', UserComponent.findById);
  * @function
  * @inner
  * @param {string} path - Express path
+ * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
 router.post('/', csrfProtection, (req, res) => {
   // eslint-disable-next-line no-underscore-dangle
-  const method = req.body._method;
-  // eslint-disable-next-line no-underscore-dangle
-  delete req.body._method;
+  delete req.body._csrf;
+  UserComponent.create(req, res);
+});
+
+/**
+ * Route serving update current user
+ * @name /v1/users/update
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
+ * @param {callback} middleware - Express middleware
+ */
+router.post('/update', csrfProtection, (req, res) => {
   // eslint-disable-next-line no-underscore-dangle
   delete req.body._csrf;
-  if (method === 'delete') {
-    UserComponent.deleteById(req, res);
-  } else if (method === 'put') {
-    UserComponent.updateById(req, res);
-  } else {
-    UserComponent.create(req, res);
-  }
+  UserComponent.updateById(req, res);
+});
+
+/**
+ * Route serving delete current user
+ * @name /v1/users/update
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
+ * @param {callback} middleware - Express middleware
+ */
+router.post('/delete', csrfProtection, (req, res) => {
+  // eslint-disable-next-line no-underscore-dangle
+  delete req.body._csrf;
+  UserComponent.deleteById(req, res);
 });
 
 /**
