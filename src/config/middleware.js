@@ -1,8 +1,14 @@
 const bodyParser = require('body-parser');
+const csrf = require('csurf');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const helmet = require('helmet');
+const http = require('http');
+
+const csrfMiddleware = csrf({
+  cookie: true,
+});
 
 module.exports = {
   /**
@@ -44,5 +50,15 @@ module.exports = {
     app.set('view engine', 'ejs');
     // ejs default views path
     app.set('views', `${__dirname}/../views`);
+    // add csrf protection
+    app.use(csrfMiddleware);
+    app.use((err, req, res, next) => {
+      if (err.code === 'EBADCSRFTOKEN') {
+        res.status(403).json({
+          status: `403 ${http.STATUS_CODES[403]}`,
+          error: err.message,
+        });
+      }
+    });
   },
 };

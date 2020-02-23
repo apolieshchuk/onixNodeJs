@@ -36,7 +36,7 @@
                 <form target="_blank" action="/v1/users/delete" method='post'>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name="id" value="<%= users[i]._id%>">
-                    <input type="submit" class="btn" value="Delete">
+                    <input type="submit" class="btn modal-close" value="Delete">
                     <input type="button" class="btn modal-close" value="Cancel">
                 </form>
             </div>

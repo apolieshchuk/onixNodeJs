@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const csrf = require('csurf');
+// const csrf = require('csurf');
 const UserComponent = require('../User');
 
-const csrfProtection = csrf({ cookie: true });
+// const csrfProtection = csrf({ cookie: true });
 
 /**
  * Express router to mount user related functions on.
@@ -20,7 +20,7 @@ const router = Router();
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware.
  */
-router.get('/', csrfProtection, UserComponent.findAll);
+router.get('/', UserComponent.findAll);
 
 /**
  * Route serving a user
@@ -41,7 +41,7 @@ router.get('/:id', UserComponent.findById);
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/', csrfProtection, (req, res) => {
+router.post('/', (req, res) => {
   // eslint-disable-next-line no-underscore-dangle
   delete req.body._csrf;
   UserComponent.create(req, res);
@@ -56,7 +56,7 @@ router.post('/', csrfProtection, (req, res) => {
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/update', csrfProtection, (req, res) => {
+router.post('/update', (req, res) => {
   // eslint-disable-next-line no-underscore-dangle
   delete req.body._csrf;
   UserComponent.updateById(req, res);
@@ -71,7 +71,7 @@ router.post('/update', csrfProtection, (req, res) => {
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/delete', csrfProtection, (req, res) => {
+router.post('/delete', (req, res) => {
   // eslint-disable-next-line no-underscore-dangle
   delete req.body._csrf;
   UserComponent.deleteById(req, res);
