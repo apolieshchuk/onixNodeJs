@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const http = require('http');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const csrfMiddleware = csrf({
   cookie: true,
@@ -60,5 +62,13 @@ module.exports = {
         });
       }
     });
+    // flash msg
+    app.use(session({
+      secret: 'secret key',
+      cookie: { maxAge: 3600 * 24 },
+      resave: false,
+      saveUninitialized: true,
+    }));
+    app.use(flash());
   },
 };

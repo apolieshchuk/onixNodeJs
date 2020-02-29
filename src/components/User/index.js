@@ -12,7 +12,11 @@ const ValidationError = require('../../error/ValidationError');
 async function findAll(req, res, next) {
   try {
     const users = await UserService.findAll();
-    res.status(200).render('index.ejs', { users, csrfToken: req.csrfToken() });
+    res.status(200).render('index.ejs', {
+      users,
+      csrfToken: req.csrfToken(),
+      error: req.flash('error'),
+    });
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -77,15 +81,11 @@ async function create(req, res, next) {
 
     await UserService.create(req.body);
 
-    return res.redirect(303, '/users');
+    return res.redirect(302, '/users');
   } catch (error) {
     if (error instanceof ValidationError) {
-      const users = await UserService.findAll();
-      res.status(422).render('index.ejs', {
-        users,
-        csrfToken: req.csrfToken(),
-        error: error.message,
-      });
+      req.flash('error', error.message);
+      res.redirect(302, '/users');
     }
     res.status(500).json({
       message: error.name,
@@ -112,15 +112,11 @@ async function updateById(req, res, next) {
 
     await UserService.updateById(req.body.id, req.body);
 
-    return res.redirect(303, '/users');
+    return res.redirect(302, '/users');
   } catch (error) {
     if (error instanceof ValidationError) {
-      const users = await UserService.findAll();
-      res.status(422).render('index.ejs', {
-        users,
-        csrfToken: req.csrfToken(),
-        error: error.message,
-      });
+      req.flash('error', error.message);
+      res.redirect(302, '/users');
     }
 
     res.status(500).json({
@@ -149,7 +145,7 @@ async function deleteById(req, res, next) {
 
     await UserService.deleteById(req.body.id);
 
-    return res.redirect(303, '/users');
+    return res.redirect(302, '/users');
   } catch (error) {
     if (error instanceof ValidationError) {
       return res.status(422).json({
