@@ -13,8 +13,8 @@ module.exports = {
     const router = express.Router();
 
     /**
-         * Forwards any requests to the /v1/users URI to UserRouter.
-         * @name /v1/users
+         * Forwards any requests to the /users URI to UserRouter.
+         * @name /users
          * @function
          * @inner
          * @param {string} path - Express path

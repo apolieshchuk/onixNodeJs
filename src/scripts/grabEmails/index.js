@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const mongoose = require('mongoose');
-const { GrabModel } = require('../components/User/model');
+const GrabModel = require('./model');
 
 /**
  * Grab emails from the page
@@ -23,7 +23,6 @@ function grabEmails(page) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('http://localhost:3000/users');
-  await page.screenshot({ path: 'myDB.png' });
 
   // grab emails
   const emails = await grabEmails(page);
@@ -31,6 +30,8 @@ function grabEmails(page) {
   // push emails in mongo db
   await GrabModel.create({ emails });
   mongoose.disconnect();
+
+  // await page.screenshot({ path: 'myDB.png' });
 
   // close browser
   await browser.close();
