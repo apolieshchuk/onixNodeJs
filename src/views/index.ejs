@@ -13,7 +13,7 @@
     <!-- Error box -->
     <% if (locals.error) { %>
         <% for (let i=0; i < error.length; i++) { %>
-            <div style="text-align: center; color: red;"><%= error[i].message %></div> 
+            <div style="text-align: center; color: red;"><%= error[i] %></div> 
         <% };%>
     <% };%>
     <!-- Main Content -->

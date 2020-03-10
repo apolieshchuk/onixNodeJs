@@ -84,13 +84,18 @@ async function create(req, res, next) {
     return res.redirect(302, '/users');
   } catch (error) {
     if (error instanceof ValidationError) {
-      req.flash('error', error.message);
+      const errArray = error.message.map((el) => el.message);
+      req.flash('error', errArray);
       res.redirect(302, '/users');
+    } else if (error.name === 'MongoError') {
+      req.flash('error', [error.errmsg]);
+      res.redirect(302, '/users');
+    } else {
+      res.status(500).json({
+        message: error.name,
+        details: error.message,
+      });
     }
-    res.status(500).json({
-      message: error.name,
-      details: error.message,
-    });
     return next(error);
   }
 }
@@ -115,15 +120,18 @@ async function updateById(req, res, next) {
     return res.redirect(302, '/users');
   } catch (error) {
     if (error instanceof ValidationError) {
-      req.flash('error', error.message);
+      const errArray = error.message.map((el) => el.message);
+      req.flash('error', errArray);
       res.redirect(302, '/users');
+    } else if (error.name === 'MongoError') {
+      req.flash('error', [error.errmsg]);
+      res.redirect(302, '/users');
+    } else {
+      res.status(500).json({
+        message: error.name,
+        details: error.message,
+      });
     }
-
-    res.status(500).json({
-      message: error.name,
-      details: error.message,
-    });
-
     return next(error);
   }
 }
@@ -148,19 +156,30 @@ async function deleteById(req, res, next) {
     return res.redirect(302, '/users');
   } catch (error) {
     if (error instanceof ValidationError) {
-      return res.status(422).json({
+      const errArray = error.message.map((el) => el.message);
+      req.flash('error', errArray);
+      res.redirect(302, '/users');
+    } else if (error.name === 'MongoError') {
+      req.flash('error', [error.errmsg]);
+      res.redirect(302, '/users');
+    } else {
+      res.status(500).json({
         message: error.name,
         details: error.message,
       });
     }
-
-    res.status(500).json({
-      message: error.name,
-      details: error.message,
-    });
-
     return next(error);
   }
+}
+
+/**
+ * Authenticate controller
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ */
+async function authenticate(req, res, next) {
+  // todo
 }
 
 module.exports = {
@@ -169,4 +188,5 @@ module.exports = {
   create,
   updateById,
   deleteById,
+  authenticate,
 };

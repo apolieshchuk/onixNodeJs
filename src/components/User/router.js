@@ -20,6 +20,11 @@ const router = Router();
 router.get('/', UserComponent.findAll);
 
 /**
+ *  Login router for JWT authenticate
+ */
+router.get('/login', UserComponent.findAll);
+
+/**
  * Route serving a user
  * @name /v1/users/:id
  * @function
@@ -38,10 +43,10 @@ router.get('/:id', UserComponent.findById);
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
   // eslint-disable-next-line no-underscore-dangle
   delete req.body._csrf;
-  UserComponent.create(req, res);
+  UserComponent.create(req, res, next);
 });
 
 /**
@@ -53,10 +58,10 @@ router.post('/', (req, res) => {
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/update', (req, res) => {
+router.post('/update', (req, res, next) => {
   // eslint-disable-next-line no-underscore-dangle
   delete req.body._csrf;
-  UserComponent.updateById(req, res);
+  UserComponent.updateById(req, res, next);
 });
 
 /**
