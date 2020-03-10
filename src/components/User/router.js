@@ -19,14 +19,10 @@ const router = Router();
  */
 router.get('/', UserComponent.findAll);
 
-/**
- *  Login router for JWT authenticate
- */
-router.get('/login', UserComponent.findAll);
 
 /**
  * Route serving a user
- * @name /v1/users/:id
+ * @name /users/:id
  * @function
  * @inner
  * @param {string} path - Express path
@@ -36,52 +32,40 @@ router.get('/:id', UserComponent.findById);
 
 /**
  * Route serving a new user
- * @name /v1/users
+ * @name /users
  * @function
  * @inner
  * @param {string} path - Express path
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/', (req, res, next) => {
-  // eslint-disable-next-line no-underscore-dangle
-  delete req.body._csrf;
-  UserComponent.create(req, res, next);
-});
+router.post('/', UserComponent.create);
 
 /**
  * Route serving update current user
- * @name /v1/users/update
+ * @name /users/update
  * @function
  * @inner
  * @param {string} path - Express path
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/update', (req, res, next) => {
-  // eslint-disable-next-line no-underscore-dangle
-  delete req.body._csrf;
-  UserComponent.updateById(req, res, next);
-});
+router.post('/update', UserComponent.updateById);
 
 /**
  * Route serving delete current user
- * @name /v1/users/update
+ * @name /users/update
  * @function
  * @inner
  * @param {string} path - Express path
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/delete', (req, res) => {
-  // eslint-disable-next-line no-underscore-dangle
-  delete req.body._csrf;
-  UserComponent.deleteById(req, res);
-});
+router.post('/delete', UserComponent.deleteById);
 
 /**
  * Route serving a new user
- * @name /v1/users
+ * @name /users
  * @function
  * @inner
  * @param {string} path - Express path

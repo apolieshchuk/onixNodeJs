@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body style="display: flex; flex-direction: column;">
+    <form action="/auth/login" method="POST" style="display: flex; flex-direction: column; align-self: center;">
+        <label for="login">Login</label>
+        <input type="text" id="login" required value="admin@admin.com">
+        <label for="login">Password</label>
+        <input type="text" id="pass" required value="admin123456">
+        <br>
+        <input type="submit">
+    </form>
+    <br>
+    <a href="/auth/register"  style="align-self: center;">Register</a>
+</body>
+</html>

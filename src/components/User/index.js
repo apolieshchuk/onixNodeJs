@@ -12,7 +12,7 @@ const ValidationError = require('../../error/ValidationError');
 async function findAll(req, res, next) {
   try {
     const users = await UserService.findAll();
-    res.status(200).render('index.ejs', {
+    res.status(200).render('users/index.ejs', {
       users,
       csrfToken: req.csrfToken(),
       error: req.flash('error'),
@@ -172,21 +172,10 @@ async function deleteById(req, res, next) {
   }
 }
 
-/**
- * Authenticate controller
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
-async function authenticate(req, res, next) {
-  // todo
-}
-
 module.exports = {
   findAll,
   findById,
   create,
   updateById,
   deleteById,
-  authenticate,
 };

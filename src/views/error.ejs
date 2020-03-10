@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error</title>
-</head>
-<body>
-    Some error
-</body>
-</html>
+<!-- Error box -->
+<% for (let i=0; i < error.length; i++) { %>
+    <div style="text-align: center; color: red;"><%= error[i] %></div> 
+<% };%>
