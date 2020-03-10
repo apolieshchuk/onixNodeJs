@@ -11,21 +11,21 @@ const router = Router();
 /**
  *  Login router
  */
-router.get('/login', AuthComponent.login);
+router.get('/login', AuthComponent.loginPage);
 
 /**
  *  Authenticate router
  */
-router.post('/login', AuthComponent.authenticate);
+router.post('/login', AuthComponent.login);
 
 /**
  *  Register router
  */
-router.get('/register', AuthComponent.register);
+router.get('/register', AuthComponent.registerPage);
 
 /**
  *  Register router (new user)
  */
-router.post('/register', AuthComponent.createLogin);
+router.post('/register', AuthComponent.register);
 
 module.exports = router;

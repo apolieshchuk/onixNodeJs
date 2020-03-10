@@ -1,4 +1,3 @@
-const flash = require('connect-flash');
 const AuthService = require('./service');
 const AuthValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
@@ -10,9 +9,12 @@ const ValidationError = require('../../error/ValidationError');
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-async function login(req, res, next) {
+async function loginPage(req, res, next) {
   try {
-    res.status(200).render('auth/login.ejs');
+    res.status(200).render('auth/login.ejs', {
+      csrfToken: req.csrfToken(),
+      error: req.flash('error'),
+    });
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -29,14 +31,38 @@ async function login(req, res, next) {
    * @param {express.Response} res
    * @param {express.NextFunction} next
    */
-async function authenticate(req, res, next) {
+async function login(req, res, next) {
   try {
-    res.status(200).render('auth/login.ejs');
+    const { error } = AuthValidation.login(req.body);
+
+    if (error) {
+      throw new ValidationError(error.details);
+    }
+
+    const user = await AuthService.login(req.body);
+
+    // Check user exist
+    if (user.length > 0) {
+      req.flash('user', user[0].name);
+      res.redirect(302, '/users');
+    } else {
+      req.flash('error', "User doesn't exist's");
+      res.redirect(302, '/auth/login');
+    }
   } catch (error) {
-    res.status(500).json({
-      error: error.message,
-      details: null,
-    });
+    if (error instanceof ValidationError) {
+      const errArray = error.message.map((el) => el.message);
+      req.flash('error', errArray);
+      res.redirect(302, '/auth/login');
+    } else if (error.name === 'MongoError') {
+      req.flash('error', [error.errmsg]);
+      res.redirect(302, '/auth/login');
+    } else {
+      res.status(500).json({
+        error: error.message,
+        details: null,
+      });
+    }
     next(error);
   }
 }
@@ -48,7 +74,7 @@ async function authenticate(req, res, next) {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-async function register(req, res, next) {
+async function registerPage(req, res, next) {
   try {
     res.status(200).render('auth/register.ejs', {
       csrfToken: req.csrfToken(),
@@ -70,15 +96,15 @@ async function register(req, res, next) {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-async function createLogin(req, res, next) {
+async function register(req, res, next) {
   try {
-    const { error } = AuthValidation.create(req.body);
+    const { error } = AuthValidation.register(req.body);
 
     if (error) {
       throw new ValidationError(error.details);
     }
 
-    await AuthService.createUser(req.body);
+    await AuthService.register(req.body);
 
     res.redirect(302, '/auth/login');
   } catch (error) {
@@ -100,8 +126,8 @@ async function createLogin(req, res, next) {
 }
 
 module.exports = {
-  authenticate,
   login,
+  loginPage,
+  registerPage,
   register,
-  createLogin,
 };

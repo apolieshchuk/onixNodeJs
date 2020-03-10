@@ -9,12 +9,20 @@
 
 </head>
 <body>
-    <h1 style="text-align: center;"> Users database </h1>
+    <!-- User login block -->
+    <% if (locals.user && user.length !== 0) { %> 
+        <h4 style="position: absolute; left: 5px; top: 5px; margin: 0;">
+             Login as: <span><%= user %></span> 
+        </h4> 
+    <% };%>
+
+    <h1 style="text-align: center; margin-top: 10px;"> Users database </h1>
+
     <!-- Error box -->
     <% if (locals.error) { %> 
         <%- include('../error.ejs', error); %>
     <% };%>
-    
+
     <!-- Main Content -->
     <div style="display: flex; padding: 20px">
         <!-- Form for add user -->

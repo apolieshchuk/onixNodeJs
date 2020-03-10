@@ -7,13 +7,14 @@ const Validation = require('../validation');
  */
 class AuthValidation extends Validation {
   /**
-     * @param {String} newUser.email
      * @param {String} newUser.name
+     * @param {String} newUser.login
      * @param {String} newUser.password
+     * @param {String} csrf if need
      * @returns
      * @memberof UserValidation
      */
-  create(newUser) {
+  register(newUser) {
     return this.Joi
       .object({
         name: this.Joi
@@ -31,6 +32,29 @@ class AuthValidation extends Validation {
         _csrf: this.Joi.string(),
       })
       .validate(newUser);
+  }
+
+  /**
+   * @param {String} user.login
+   * @param {String} user.password
+   * @param {String} csrf if need
+   * @returns
+   * @memberof UserValidation
+   */
+  login(user) {
+    return this.Joi
+      .object({
+        login: this.Joi.string()
+          .email()
+          .required(),
+        password: this.Joi
+          .string()
+          .min(6)
+          .max(30)
+          .required(),
+        _csrf: this.Joi.string(),
+      })
+      .validate(user);
   }
 }
 
