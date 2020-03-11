@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const AuthService = require('./service');
 const AuthValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
@@ -103,6 +104,9 @@ async function register(req, res, next) {
     if (error) {
       throw new ValidationError(error.details);
     }
+
+    // do password hashing
+    req.body.password = await bcrypt.hash(req.body.password, 5);
 
     await AuthService.register(req.body);
 
