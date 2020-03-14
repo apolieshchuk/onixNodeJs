@@ -25,48 +25,6 @@ async function loginPage(req, res, next) {
   }
 }
 
-/**
-   * Authenticate controller
-   *
-   * @param {express.Request} req
-   * @param {express.Response} res
-   * @param {express.NextFunction} next
-   */
-async function login(req, res, next) {
-  try {
-    const { error } = AuthValidation.login(req.body);
-
-    if (error) {
-      throw new ValidationError(error.details);
-    }
-
-    const user = await AuthService.login(req.body);
-
-    // Check user exist
-    if (user.length > 0) {
-      req.flash('user', user[0].name);
-      res.redirect(302, '/users');
-    } else {
-      req.flash('error', "User doesn't exist's");
-      res.redirect(302, '/auth/login');
-    }
-  } catch (error) {
-    if (error instanceof ValidationError) {
-      const errArray = error.message.map((el) => el.message);
-      req.flash('error', errArray);
-      res.redirect(302, '/auth/login');
-    } else if (error.name === 'MongoError') {
-      req.flash('error', [error.errmsg]);
-      res.redirect(302, '/auth/login');
-    } else {
-      res.status(500).json({
-        error: error.message,
-        details: null,
-      });
-    }
-    next(error);
-  }
-}
 
 /**
  * Register controller
@@ -130,7 +88,6 @@ async function register(req, res, next) {
 }
 
 module.exports = {
-  login,
   loginPage,
   registerPage,
   register,

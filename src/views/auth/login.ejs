@@ -11,7 +11,6 @@
     <% if (locals.error) { %> 
         <%- include('../error.ejs', error); %>
     <% };%>
-    
     <form action="/auth/login" method="POST" style="display: flex; flex-direction: column; align-self: center;">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <label for="login">Login</label>

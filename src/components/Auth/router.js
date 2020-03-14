@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const passport = require('passport');
 const AuthComponent = require('../Auth');
 
 /**
@@ -16,7 +17,11 @@ router.get('/login', AuthComponent.loginPage);
 /**
  *  Authenticate router
  */
-router.post('/login', AuthComponent.login);
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/users',
+  failureRedirect: '/auth/login',
+  failureFlash: true,
+}));
 
 /**
  *  Register router

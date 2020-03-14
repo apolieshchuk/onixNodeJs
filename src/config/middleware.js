@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const bodyParser = require('body-parser');
 const csrf = require('csurf');
 const compression = require('compression');
@@ -7,6 +9,7 @@ const helmet = require('helmet');
 const http = require('http');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
 
 const csrfMiddleware = csrf({
   cookie: true,
@@ -64,11 +67,14 @@ module.exports = {
     });
     // flash msg
     app.use(session({
-      secret: 'secret key',
+      secret: process.env.SESSION_SECRET,
       cookie: { maxAge: 3600 * 24 },
       resave: false,
       saveUninitialized: true,
     }));
     app.use(flash());
+    // pasport
+    app.use(passport.initialize());
+    app.use(passport.session());
   },
 };
