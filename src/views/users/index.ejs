@@ -9,14 +9,20 @@
 
 </head>
 <body>
-    <!-- User login block -->
-    <% if (locals.user && user.length !== 0) { %> 
-        <h4 style="position: absolute; left: 5px; top: 5px; margin: 0;">
-             Login as: <span><%= user %></span> 
-        </h4> 
-    <% };%>
+    <!-- User login block and header -->
+    <div style="display: flex; margin-left: 10px;">
+        <div>
+            <h4>
+                Login as: <span><%= user %></span> 
+           </h4> 
+           <form action="/auth/logout" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="submit" value="LogOut">
+            </form>
+        </div>
 
-    <h1 style="text-align: center; margin-top: 10px;"> Users database </h1>
+        <h1 style="margin-left: 170px;"> Users database </h1>
+    </div>
 
     <!-- Error box -->
     <% if (locals.error) { %> 

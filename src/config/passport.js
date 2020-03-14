@@ -18,14 +18,30 @@ const authenticateUser = async (login, password, done) => {
   }
 };
 
+function checkAuth(req, res, next) {
+  if (req.user) {
+    return next();
+  }
+  return res.redirect(302, '/auth/login');
+}
+
+function checkNotAuth(req, res, next) {
+  if (req.user) {
+    return res.redirect(302, '/users');
+  }
+  return next();
+}
+
 module.exports = {
 
   init(passport) {
     passport.use(new LocalStrategy({ usernameField: 'login' }, authenticateUser));
-    passport.serializeUser((user, done) => done(null, user._id));
+    passport.serializeUser((user, done) => done(null, user.id));
     passport.deserializeUser(async (id, done) => {
       const user = await AuthService.findUserById(id);
       return done(null, user);
     });
   },
+  checkAuth,
+  checkNotAuth,
 };

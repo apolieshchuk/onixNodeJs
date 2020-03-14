@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const UserComponent = require('../User');
+const { checkAuth } = require('../../config/passport');
 
 /**
  * Express router to mount user related functions on.
@@ -17,7 +18,7 @@ const router = Router();
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware.
  */
-router.get('/', UserComponent.findAll);
+router.get('/', checkAuth, UserComponent.findAll);
 
 
 /**
@@ -75,7 +76,7 @@ router.put('/', UserComponent.updateById);
 
 /**
  * Route serving a new user
- * @name /v1/users
+ * @name /users
  * @function
  * @inner
  * @param {string} path -Express path

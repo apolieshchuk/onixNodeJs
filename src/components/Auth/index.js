@@ -3,6 +3,7 @@ const AuthService = require('./service');
 const AuthValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
 
+
 /**
  * Login controller
  *
@@ -87,8 +88,29 @@ async function register(req, res, next) {
   }
 }
 
+/**
+ * Logout user
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ */
+async function logout(req, res, next) {
+  try {
+    req.logOut();
+    res.redirect('/auth/login');
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+      details: null,
+    });
+    next(error);
+  }
+}
+
 module.exports = {
   loginPage,
   registerPage,
   register,
+  logout,
 };
