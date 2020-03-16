@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const UserComponent = require('../User');
-const { checkAuth } = require('../../config/passport');
+const { jwtAuth } = require('../Auth/jwt');
 
 /**
  * Express router to mount user related functions on.
@@ -18,7 +18,7 @@ const router = Router();
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware.
  */
-router.get('/', checkAuth, UserComponent.findAll);
+router.get('/', jwtAuth, UserComponent.findAll);
 
 
 /**

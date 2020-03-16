@@ -17,7 +17,7 @@ async function findAll(req, res, next) {
       users,
       csrfToken: req.csrfToken(),
       error: req.flash('error'),
-      user: req.user.name,
+      userName: req.user.name,
     });
   } catch (error) {
     res.status(500).json({

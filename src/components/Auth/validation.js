@@ -21,7 +21,7 @@ class AuthValidation extends Validation {
           .string()
           .min(3)
           .max(30),
-        login: this.Joi.string()
+        email: this.Joi.string()
           .email()
           .required(),
         password: this.Joi
@@ -44,7 +44,7 @@ class AuthValidation extends Validation {
   login(user) {
     return this.Joi
       .object({
-        login: this.Joi.string()
+        email: this.Joi.string()
           .email()
           .required(),
         password: this.Joi

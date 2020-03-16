@@ -1,7 +1,7 @@
 const { Router } = require('express');
-const passport = require('passport');
 const AuthComponent = require('../Auth');
-const { checkNotAuth } = require('../../config/passport');
+
+
 /**
  * Express router to mount user related functions on.
  * @type {Express.Router}
@@ -10,32 +10,33 @@ const { checkNotAuth } = require('../../config/passport');
 const router = Router();
 
 /**
- *  Login router
+ *  GET Login router
  */
-router.get('/login', checkNotAuth, AuthComponent.loginPage);
+router.get('/login', AuthComponent.loginPage);
 
 /**
- *  Authenticate router
+ *  POST Authenticate router
  */
-router.post('/login', checkNotAuth, passport.authenticate('local', {
-  successRedirect: '/users',
-  failureRedirect: '/auth/login',
-  failureFlash: true,
-}));
+router.post('/login', AuthComponent.login);
+
+/**
+ *  POST Access Token
+ */
+router.post('/token', AuthComponent.getToken);
 
 /**
  *  Register router
  */
-router.get('/register', checkNotAuth, AuthComponent.registerPage);
+router.get('/register', AuthComponent.registerPage);
 
 /**
  *  Register router (new user)
  */
-router.post('/register', checkNotAuth, AuthComponent.register);
+router.post('/register', AuthComponent.register);
 
 /**
  * Logout router
  */
-router.post('/logout', AuthComponent.logout);
+router.delete('/logout', AuthComponent.logout);
 
 module.exports = router;

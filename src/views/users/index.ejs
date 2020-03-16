@@ -13,9 +13,9 @@
     <div style="display: flex; margin-left: 10px;">
         <div>
             <h4>
-                Login as: <span><%= user %></span> 
+                Login as: <span><%= userName %></span> 
            </h4> 
-           <form action="/auth/logout" method="POST">
+           <form action="/auth/logout?_method=DELETE" method="POST">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <input type="submit" value="LogOut">
             </form>

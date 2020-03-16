@@ -1,11 +1,11 @@
-const LoginUsersModel = require('./model');
+const { LoginUsersModel, RefreshTokensModel } = require('./model');
 
 /**
  * Register new User
  *
  * @exports
  * @method register
- * @param {name, login, password} new user
+ * @param {name, login, password} newUser
  * @summary create a new user
  * @returns {Promise<UserModel>}
  */
@@ -18,7 +18,7 @@ function register(newUser) {
  *
  * @exports
  * @method login
- * @param {name, login, password} new user
+ * @param {name, login, password} user
  * @summary create a new user
  * @returns {Promise<UserModel>}
  */
@@ -30,13 +30,13 @@ function login(user) {
  * Find user by login
  *
  * @exports
- * @method Find user by login
- * @param {String} login name
- * @summary Find user by login
+ * @method Find user by email
+ * @param {String} userEmail
+ * @summary Find user by email
  * @returns {Promise<UserModel>}
  */
-function findUserByLogin(userLogin) {
-  return LoginUsersModel.findOne({ login: userLogin });
+function findUserByEmail(email) {
+  return LoginUsersModel.findOne({ email });
 }
 
 /**
@@ -44,7 +44,7 @@ function findUserByLogin(userLogin) {
  *
  * @exports
  * @method Find user by id
- * @param {String} login id
+ * @param {String} id
  * @summary Find user by id
  * @returns {Promise<UserModel>}
  */
@@ -52,9 +52,51 @@ function findUserById(id) {
   return LoginUsersModel.findOne({ _id: id });
 }
 
+/**
+ * Find token in refreshTokens
+ *
+ * @exports
+ * @method Find token in db
+ * @param {String} refreshToken
+ * @summary Find token in db
+ * @returns {Promise<UserModel>}
+ */
+function refreshTokenExists(refreshToken) {
+  return RefreshTokensModel.findOne({ refreshToken });
+}
+
+/**
+ * Add refreshToken in refreshTokens db
+ *
+ * @exports
+ * @method Add token in db
+ * @param {String} refreshToken
+ * @summary Add token in db
+ * @returns {Promise<UserModel>}
+ */
+function addRefreshToken(refreshToken) {
+  return RefreshTokensModel.create({ refreshToken });
+}
+
+/**
+ * Remove refreshToken in refreshTokens db
+ *
+ * @exports
+ * @method Remove token in db
+ * @param {String} refreshToken
+ * @summary Remove token in db
+ * @returns {Promise<UserModel>}
+ */
+function delRefreshToken(refreshToken) {
+  return RefreshTokensModel.deleteOne({ refreshToken });
+}
+
 module.exports = {
   register,
   login,
-  findUserByLogin,
+  findUserByEmail,
   findUserById,
+  refreshTokenExists,
+  addRefreshToken,
+  delRefreshToken,
 };

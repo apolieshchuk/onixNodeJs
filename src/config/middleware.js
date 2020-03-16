@@ -7,9 +7,11 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const http = require('http');
+const express = require('express');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
+const methodOverride = require('method-override');
 
 const csrfMiddleware = csrf({
   cookie: true,
@@ -76,5 +78,9 @@ module.exports = {
     // pasport
     app.use(passport.initialize());
     app.use(passport.session());
+    // jwt
+    app.use(express.json());
+    // method override
+    app.use(methodOverride('_method'));
   },
 };

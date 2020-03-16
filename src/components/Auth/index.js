@@ -1,11 +1,13 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { getAccessToken, getRefreshToken } = require('./jwt');
 const AuthService = require('./service');
 const AuthValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
 
 
 /**
- * Login controller
+ * GET Login controller
  *
  * @param {express.Request} req
  * @param {express.Response} res
@@ -26,9 +28,55 @@ async function loginPage(req, res, next) {
   }
 }
 
+/**
+ * POST Login controller
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ */
+async function login(req, res, next) {
+  try {
+    const { email } = req.body;
+    const user = await AuthService.findUserByEmail(email);
+    const accessToken = getAccessToken({ email: user.email, name: user.name });
+    const refreshToken = getRefreshToken({ email: user.email, name: user.name });
+    res.status(200);
+    res.json({ accessToken, refreshToken });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+      details: null,
+    });
+    next(error);
+  }
+}
 
 /**
- * Register controller
+ * Getting new access token
+ *
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ */
+async function getToken(req, res, next) {
+  const refreshToken = req.body.token;
+  const isExists = await AuthService.refreshTokenExists(refreshToken);
+  if (isExists == null) {
+    return res.sendStatus(401);
+  }
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      return res.sendStatus(403);
+    }
+    const accessToken = getAccessToken({ email: user.email, name: user.name });
+    return res.json({ accessToken });
+  });
+  return next();
+}
+
+/**
+ * GET Register controller
  *
  * @param {express.Request} req
  * @param {express.Response} res
@@ -50,7 +98,7 @@ async function registerPage(req, res, next) {
 }
 
 /**
- * Register new user
+ * POST Register new user
  *
  * @param {express.Request} req
  * @param {express.Response} res
@@ -65,7 +113,7 @@ async function register(req, res, next) {
     }
 
     // do password hashing
-    req.body.password = await bcrypt.hash(req.body.password, 5);
+    req.body.password = await bcrypt.hash(req.body.password, 10);
 
     await AuthService.register(req.body);
 
@@ -89,7 +137,8 @@ async function register(req, res, next) {
 }
 
 /**
- * Logout user
+ * Logout user (delete refresh token)
+ * DELETE method
  *
  * @param {express.Request} req
  * @param {express.Response} res
@@ -97,8 +146,8 @@ async function register(req, res, next) {
  */
 async function logout(req, res, next) {
   try {
-    req.logOut();
-    res.redirect('/auth/login');
+    await AuthService.delRefreshToken(req.body.token);
+    res.sendStatus(204);
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -113,4 +162,6 @@ module.exports = {
   registerPage,
   register,
   logout,
+  login,
+  getToken,
 };

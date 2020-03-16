@@ -6,7 +6,7 @@ const LoginUsersSchema = new Schema(
     name: {
       type: String,
     },
-    login: {
+    email: {
       type: String,
       required: true,
     },
@@ -21,4 +21,19 @@ const LoginUsersSchema = new Schema(
   },
 );
 
-module.exports = connections.model('LoginUsersModel', LoginUsersSchema);
+const RefreshTokensSchema = new Schema(
+  {
+    refreshToken: {
+      type: String,
+    },
+  },
+  {
+    collection: 'refreshTokens',
+    versionKey: false,
+  },
+);
+
+module.exports = {
+  LoginUsersModel: connections.model('LoginUsersModel', LoginUsersSchema),
+  RefreshTokensModel: connections.model('RefreshTokensModel', RefreshTokensSchema),
+};
