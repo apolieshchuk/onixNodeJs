@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MONGODB_URI = 'mongodb://localhost:27017/';
+const MONGODB_URI = process.env.DB_CONNECT;
 const MONGODB_DB_MAIN = 'users_db';
 const MONGO_URI = `${MONGODB_URI}${MONGODB_DB_MAIN}`;
 
@@ -15,6 +15,7 @@ const connectOptions = {
   // parser if they find a bug in the new parse
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 };
 
 module.exports = mongoose.createConnection(MONGO_URI, connectOptions);

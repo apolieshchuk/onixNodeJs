@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { getAccessToken, getRefreshToken } = require('./jwt');
+const { getTokens } = require('./jwt');
 const AuthService = require('./service');
 const AuthValidation = require('./validation');
 const ValidationError = require('../../error/ValidationError');
@@ -37,29 +37,57 @@ async function loginPage(req, res, next) {
  */
 async function login(req, res, next) {
   try {
-    const { email } = req.body;
-    const user = await AuthService.findUserByEmail(email);
-    const accessToken = getAccessToken({ email: user.email, name: user.name });
-    const refreshToken = getRefreshToken({ email: user.email, name: user.name });
-    res.status(200);
-    res.json({ accessToken, refreshToken });
+    const { error } = AuthValidation.login(req.body);
+
+    if (error) {
+      throw new ValidationError(error.details);
+    }
+
+    const user = await AuthService.findUserByEmail(req.body.email);
+
+    // check user(email) exists
+    if (!user) {
+      req.flash('error', 'User not found');
+      res.redirect(302, '/auth/login');
+    }
+
+    // check password
+    if (!await bcrypt.compare(req.body.password, user.password)) {
+      req.flash('error', 'Incorrect password');
+      res.redirect(302, '/auth/login');
+    }
+
+    // success auth
+    const tokens = getTokens({ email: user.email, name: user.name });
+
+    // backend cookies for httpOnly
+    res.cookie('auth', tokens, {
+      expires: new Date(Date.now() + process.env.REFRESH_TOKEN_EXP),
+      secure: false,
+      httpOnly: true,
+    });
+    res.redirect(302, '/users');
+
+    // for frontend
+    // return res.json(tokens);
   } catch (error) {
     res.status(500).json({
       error: error.message,
       details: null,
     });
+
     next(error);
   }
 }
 
 /**
- * Getting new access token
+ * Getting new access tokens (for frontend)
  *
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-async function getToken(req, res, next) {
+async function token(req, res, next) {
   const refreshToken = req.body.token;
   const isExists = await AuthService.refreshTokenExists(refreshToken);
   if (isExists == null) {
@@ -69,8 +97,15 @@ async function getToken(req, res, next) {
     if (err) {
       return res.sendStatus(403);
     }
-    const accessToken = getAccessToken({ email: user.email, name: user.name });
-    return res.json({ accessToken });
+    const tokens = getTokens({ email: user.email, name: user.name });
+
+    // backend cookies for httpOnly
+    res.cookie('auth', tokens, {
+      expires: new Date(Date.now() + process.env.REFRESH_TOKEN_EXP),
+      secure: false,
+      httpOnly: true,
+    });
+    return res.json(tokens);
   });
   return next();
 }
@@ -98,7 +133,7 @@ async function registerPage(req, res, next) {
 }
 
 /**
- * POST Register new user
+ * PUT Register new user
  *
  * @param {express.Request} req
  * @param {express.Response} res
@@ -146,8 +181,10 @@ async function register(req, res, next) {
  */
 async function logout(req, res, next) {
   try {
-    await AuthService.delRefreshToken(req.body.token);
-    res.sendStatus(204);
+    await AuthService.delRefreshToken(req.cookies.auth.refreshToken);
+    res.cookie('auth', '');
+    // console.log(req.cookies);
+    res.redirect(302, '/auth/login');
   } catch (error) {
     res.status(500).json({
       error: error.message,
@@ -163,5 +200,5 @@ module.exports = {
   register,
   logout,
   login,
-  getToken,
+  token,
 };

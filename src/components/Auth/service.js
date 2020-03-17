@@ -70,12 +70,18 @@ function refreshTokenExists(refreshToken) {
  *
  * @exports
  * @method Add token in db
+ * @param {String} email userEmail
  * @param {String} refreshToken
  * @summary Add token in db
  * @returns {Promise<UserModel>}
  */
-function addRefreshToken(refreshToken) {
-  return RefreshTokensModel.create({ refreshToken });
+async function addRefreshToken(email, refreshToken) {
+  const options = {
+    upsert: true,
+    new: true,
+    setDefaultsOnInsert: true,
+  };
+  return RefreshTokensModel.findOneAndUpdate({ userEmail: email }, { refreshToken }, options);
 }
 
 /**

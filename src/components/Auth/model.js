@@ -23,8 +23,13 @@ const LoginUsersSchema = new Schema(
 
 const RefreshTokensSchema = new Schema(
   {
+    userEmail: {
+      type: String,
+      required: true,
+    },
     refreshToken: {
       type: String,
+      required: true,
     },
   },
   {

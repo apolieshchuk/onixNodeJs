@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const UserComponent = require('../User');
-const { jwtAuth } = require('../Auth/jwt');
+const { checkAuth } = require('../Auth/jwt');
 
 /**
  * Express router to mount user related functions on.
@@ -11,14 +11,14 @@ const router = Router();
 
 /**
  * Route serving list of users.
- * @name /v1/users
+ * @name /users
  * @function
  * @inner
  * @param {string} path - Express path
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware.
  */
-router.get('/', jwtAuth, UserComponent.findAll);
+router.get('/', checkAuth, UserComponent.findAll);
 
 
 /**
@@ -29,7 +29,7 @@ router.get('/', jwtAuth, UserComponent.findAll);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-router.get('/:id', UserComponent.findById);
+router.get('/:id', checkAuth, UserComponent.findById);
 
 /**
  * Route serving a new user
@@ -40,7 +40,7 @@ router.get('/:id', UserComponent.findById);
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/', UserComponent.create);
+router.post('/', checkAuth, UserComponent.create);
 
 /**
  * Route serving update current user
@@ -51,18 +51,18 @@ router.post('/', UserComponent.create);
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/update', UserComponent.updateById);
+router.post('/update', checkAuth, UserComponent.updateById);
 
 /**
  * Route serving delete current user
- * @name /users/update
+ * @name /users/delete
  * @function
  * @inner
  * @param {string} path - Express path
  * @param {RequestHandler<ParamsDictionary, any, any>} csrfProtection
  * @param {callback} middleware - Express middleware
  */
-router.post('/delete', UserComponent.deleteById);
+router.post('/delete', checkAuth, UserComponent.deleteById);
 
 /**
  * Route serving a new user
@@ -72,7 +72,7 @@ router.post('/delete', UserComponent.deleteById);
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-router.put('/', UserComponent.updateById);
+router.put('/', checkAuth, UserComponent.updateById);
 
 /**
  * Route serving a new user
@@ -82,6 +82,6 @@ router.put('/', UserComponent.updateById);
  * @param {string} path -Express path
  * @param {callback} middleware - Express middleware
  */
-router.delete('/', UserComponent.deleteById);
+router.delete('/', checkAuth, UserComponent.deleteById);
 
 module.exports = router;

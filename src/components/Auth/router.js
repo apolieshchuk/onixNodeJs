@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const AuthComponent = require('../Auth');
-
+const { checkNotAuth } = require('../Auth/jwt');
 
 /**
  * Express router to mount user related functions on.
@@ -12,7 +12,7 @@ const router = Router();
 /**
  *  GET Login router
  */
-router.get('/login', AuthComponent.loginPage);
+router.get('/login', checkNotAuth, AuthComponent.loginPage);
 
 /**
  *  POST Authenticate router
@@ -22,17 +22,17 @@ router.post('/login', AuthComponent.login);
 /**
  *  POST Access Token
  */
-router.post('/token', AuthComponent.getToken);
+router.post('/token', AuthComponent.token);
 
 /**
  *  Register router
  */
-router.get('/register', AuthComponent.registerPage);
+router.get('/register', checkNotAuth, AuthComponent.registerPage);
 
 /**
  *  Register router (new user)
  */
-router.post('/register', AuthComponent.register);
+router.put('/register', AuthComponent.register);
 
 /**
  * Logout router
