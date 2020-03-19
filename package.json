@@ -47,7 +47,7 @@
     "nodemon": "2.0.2"
   },
   "scripts": {
-    "test": "npx mocha ./__test__ --exit "
+    "test": "npx mocha ./__test__ --timeout 10000 --exit "
   },
   "repository": {
     "type": "git",

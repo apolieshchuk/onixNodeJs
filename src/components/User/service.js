@@ -43,7 +43,7 @@ function create(profile) {
  * @returns {Promise<void>}
  */
 function updateById(_id, newProfile) {
-  return UserModel.updateOne({ _id }, newProfile).exec();
+  return UserModel.findOneAndUpdate({ _id }, newProfile, { returnOriginal: false }).exec();
 }
 
 /**
