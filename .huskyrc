@@ -1,5 +1,5 @@
 {
   "hooks": {
-    // "pre-push": "node ./src/server/index.js"
+    "pre-push": "npm test"
   }
 }
