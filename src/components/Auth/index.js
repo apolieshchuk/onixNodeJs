@@ -61,7 +61,12 @@ async function login(req, res, next) {
     const tokens = getTokens({ email: user.email, name: user.name });
 
     // backend cookies for httpOnly
-    res.cookie('auth', tokens, {
+    res.cookie('accessToken', tokens.accessToken, {
+      expires: new Date(Date.now() + process.env.ACCESS_TOKEN_EXP),
+      secure: false,
+      httpOnly: true,
+    });
+    res.cookie('refreshToken', tokens.refreshToken, {
       expires: new Date(Date.now() + process.env.REFRESH_TOKEN_EXP),
       secure: false,
       httpOnly: true,
@@ -181,9 +186,9 @@ async function register(req, res, next) {
  */
 async function logout(req, res, next) {
   try {
-    await AuthService.delRefreshToken(req.cookies.auth.refreshToken);
-    res.cookie('auth', '');
-    // console.log(req.cookies);
+    await AuthService.delRefreshToken(req.cookies.refreshToken);
+    res.cookie('accessToken', '');
+    res.cookie('refreshToken', '');
     res.redirect(302, '/auth/login');
   } catch (error) {
     res.status(500).json({

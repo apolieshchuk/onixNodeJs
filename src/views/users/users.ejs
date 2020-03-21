@@ -17,7 +17,7 @@
         <div id="modal1-<%=i%>" class="modal">
             <div class="modal-content">
                 <h4>Edit user</h4>
-                <form action="/users/update" method='post'>
+                <form action="/users?_method=PUT" method='POST'>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name="id" value="<%= users[i]._id%>">
                     <input name ="email" value="<%= users[i].email%>" type="text"
@@ -33,7 +33,7 @@
         <div id="modal2-<%=i%>" class="modal">
             <div class="modal-content">
                 <h4>Confirm delete. Are you sure?</h4>
-                <form action="/users/delete" method='post'>
+                <form action="/users?_method=DELETE" method='post'>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name="id" value="<%= users[i]._id%>">
                     <input type="submit" class="btn modal-close" value="Delete">

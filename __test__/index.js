@@ -6,9 +6,9 @@
 // **********
 // * SERVICES
 // **********
-require('./tests/UserService.test.js');
+// require('./tests/UserService.test.js');
 
 // **************************
 // * CONTROLLERS (ROUTES)
 // **************************
-// require('./tests/User.test');
+require('./tests/User.test');

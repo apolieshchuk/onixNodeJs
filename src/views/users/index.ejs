@@ -25,7 +25,7 @@
     </div>
 
     <!-- Error box -->
-    <% if (locals.error) { %> 
+    <% if (error.length != 0) { %> 
         <%- include('../error.ejs', error); %>
     <% };%>
 

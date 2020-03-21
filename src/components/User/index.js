@@ -17,7 +17,7 @@ async function findAll(req, res, next) {
       users,
       csrfToken: req.csrfToken(),
       error: req.flash('error'),
-      userName: req.user.name,
+      userName: req.user ? req.user.name : null,
     });
   } catch (error) {
     res.status(500).json({
@@ -45,6 +45,7 @@ async function findById(req, res, next) {
     }
 
     const user = await UserService.findById(req.params.id);
+    if (!user) return res.status(404).send('User not found');
 
     return res.status(200).json({
       data: user,
@@ -81,8 +82,10 @@ async function create(req, res, next) {
       throw new ValidationError(error.details);
     }
 
-    await UserService.create(req.body);
-
+    const { id } = await UserService.create(req.body);
+    res.set({ // for mocha tests remove
+      userId: id,
+    });
     return res.redirect(302, '/users');
   } catch (error) {
     if (error instanceof ValidationError) {

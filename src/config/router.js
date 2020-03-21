@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const UserRouter = require('../components/User/router');
 const AuthRouter = require('../components/Auth/router');
+const { checkAuth } = require('../components/Auth/jwt');
 
 module.exports = {
   /**
@@ -21,7 +22,7 @@ module.exports = {
          * @param {string} path - Express path
          * @param {callback} middleware - Express middleware.
          */
-    app.use('/users', UserRouter);
+    app.use('/users', checkAuth, UserRouter);
 
     /**
      * Forwards any requests to the /auth URI to AuthRouter.

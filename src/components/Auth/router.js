@@ -27,7 +27,7 @@ router.post('/token', AuthComponent.token);
 /**
  *  Register router
  */
-router.get('/register', checkNotAuth, AuthComponent.registerPage);
+router.get('/register', AuthComponent.registerPage);
 
 /**
  *  Register router (new user)

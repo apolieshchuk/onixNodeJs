@@ -28,18 +28,23 @@ function getTokens(user) {
 }
 
 function updateTokens(req) {
-  // Check refresh token exists
-  const { refreshToken } = req.cookies.auth;
+  // Check refresh token exists in cookies
+  const { refreshToken } = req.cookies;
+  if (!refreshToken) return false;
+
+  // Check refresh token exists in database of tokens
   const isExists = AuthService.refreshTokenExists(refreshToken);
   if (!isExists) return false;
 
+  // Check refresh token expired and correctness
   return jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) {
       return false;
     }
     const tokens = getTokens({ email: user.email, name: user.name });
     // change request auth info
-    req.cookies.auth = tokens;
+    req.cookies.accessToken = tokens.accessToken;
+    req.cookies.refreshToken = tokens.refreshToken;
     return true;
   });
 }
@@ -49,20 +54,18 @@ function updateTokens(req) {
  */
 function checkAuth(req, res, next) {
   // check auth info and access token exists
-  const { auth } = req.cookies;
-  if (!auth || !auth.accessToken) {
-    return res.redirect(302, '/auth/login');
-  }
+  const { accessToken } = req.cookies;
+  if (!accessToken) return res.redirect(302, '/auth/login');
 
   // update expired tokens if we can
-  if (isExpired(auth.accessToken)) {
+  if (isExpired(accessToken)) {
     if (!updateTokens(req)) {
       return res.redirect(302, '/auth/login');
     }
   }
 
   // check Access token validation
-  return jwt.verify(req.cookies.auth.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+  return jwt.verify(req.cookies.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
       res.redirect(302, '/auth/login');
     } else {
@@ -77,13 +80,11 @@ function checkAuth(req, res, next) {
  */
 function checkNotAuth(req, res, next) {
   // check auth info and access token exists
-  const { auth } = req.cookies;
-  if (!auth || !auth.accessToken) {
-    return next();
-  }
+  const { accessToken } = req.cookies;
+  if (!accessToken) return next();
 
-  // Check access token
-  if (isExpired(auth.accessToken)) {
+  // Check access token exists or expired
+  if (isExpired(accessToken)) {
     if (updateTokens(req)) {
       return res.redirect(302, '/users');
     }
@@ -91,7 +92,7 @@ function checkNotAuth(req, res, next) {
   }
 
   // check Access token validation
-  return jwt.verify(req.cookies.auth.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+  return jwt.verify(req.cookies.accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) {
       res.redirect(302, '/auth/login');
     } else {

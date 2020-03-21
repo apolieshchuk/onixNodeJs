@@ -14,7 +14,8 @@ class UserValidation extends Validation {
   findById(data) {
     return this.Joi
       .object({
-        id: this.Joi.objectId(),
+        id: this.Joi.objectId()
+          .required(),
       })
       .validate(data);
   }
@@ -28,7 +29,9 @@ class UserValidation extends Validation {
   create(profile) {
     return this.Joi
       .object({
-        email: this.Joi.string().email(),
+        email: this.Joi.string()
+          .email()
+          .required(),
         fullName: this.Joi
           .string()
           .min(1)
@@ -48,13 +51,14 @@ class UserValidation extends Validation {
   updateById(data) {
     return this.Joi
       .object({
-        id: this.Joi.objectId(),
-        email: this.Joi.string().email(),
+        id: this.Joi.objectId()
+          .required(),
+        email: this.Joi.string()
+          .email(),
         fullName: this.Joi
           .string()
           .min(1)
-          .max(30)
-          .required(),
+          .max(30),
         _csrf: this.Joi.string(),
       })
       .validate(data);
@@ -68,7 +72,8 @@ class UserValidation extends Validation {
   deleteById(data) {
     return this.Joi
       .object({
-        id: this.Joi.objectId(),
+        id: this.Joi.objectId()
+          .required(),
         _csrf: this.Joi.string(),
       })
       .validate(data);

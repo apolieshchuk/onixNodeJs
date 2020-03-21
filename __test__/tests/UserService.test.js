@@ -14,7 +14,7 @@ for (let i = 0; i < process.env.TEST_OBJECTS_AMOUNT; i += 1) {
   });
 }
 
-// create tmp list for tmp test-objects id
+// create tmp list for tmp test-objects id from mongo DB
 let testIds = [];
 
 // randomGenerator
@@ -23,6 +23,7 @@ function getRandomInt(max) {
 }
 
 describe('UserComponent -> service', () => {
+  /* @beforeEach and @afterEach functions */
   beforeEach(async () => {
     const objList = await UserModel.insertMany(testObjects);
     objList.forEach((obj) => { testIds.push(obj.id); });
