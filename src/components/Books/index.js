@@ -1,3 +1,4 @@
+const { getChartData } = require('./service');
 
 /**
  * @function
@@ -9,7 +10,7 @@
 async function chart(req, res, next) {
   try {
     return res.status(200).json({
-      data: [],
+      data: await getChartData(),
     });
   } catch (error) {
     res.status(500).json({

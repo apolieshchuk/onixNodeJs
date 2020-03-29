@@ -1,5 +1,4 @@
-const path = require('path');
-const csv = require('csvtojson');
+const booksModel = require('./model');
 
 /**
  *
@@ -8,7 +7,20 @@ const csv = require('csvtojson');
  * @returns {any}
  */
 async function getChartData() {
-  return csv().fromFile(path.join(__dirname, '../../../books.csv'));
+  const test = await booksModel.aggregate([
+    {
+      $group: {
+        _id: '$code3',
+        value: {
+          $sum: 1,
+        },
+      },
+    },
+  ]);
+  return test.map((obj) => ({
+    code3: obj._id,
+    value: obj.value,
+  }));
 }
 
 module.exports = {

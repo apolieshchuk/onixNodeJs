@@ -9,7 +9,7 @@ const csv = require('csvtojson');
  * @returns {any}
  */
 function getBooksFromCsv() {
-  return csv().fromFile(path.join(__dirname, '../../books_test.csv'));
+  return csv().fromFile(path.join(__dirname, '../../books.csv'));
 }
 
 module.exports = {
