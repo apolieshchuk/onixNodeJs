@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 /**
  * @function
  * @param  {NodeJS.ErrnoException} error
@@ -6,22 +5,22 @@
  * @returns throw error
  */
 function onError(error, port) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-  const bindPort = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
+    const bindPort = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
-  switch (error.code) {
-    case 'EACCES':
-      console.error(`${bindPort} requires elevated privileges`);
-      process.exit(1);
-    case 'EADDRINUSE':
-      console.error(`${bindPort} is already in use`);
-      process.exit(1);
-    default:
-      throw error;
-  }
+    switch (error.code) {
+        case 'EACCES':
+            console.error(`${bindPort} requires elevated privileges`);
+            process.exit(1);
+        case 'EADDRINUSE':
+            console.error(`${bindPort} is already in use`);
+            process.exit(1);
+        default:
+            throw error;
+    }
 }
 /**
  * @function
@@ -29,10 +28,10 @@ function onError(error, port) {
  * @description log port to console
  */
 function onListening() {
-  const addr = this.address();
-  const bindPort = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+    const addr = this.address();
+    const bindPort = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
 
-  console.log(`Listening on ${bindPort}`);
+    console.log(`Listening on ${bindPort}`);
 }
 
 /**
@@ -42,12 +41,12 @@ function onListening() {
  * @param {number} port
  */
 function bind(Server, port) {
-  Server.on('error', (error) => this.onError(error, port));
-  Server.on('listening', this.onListening.bind(Server));
+    Server.on('error', (error) => this.onError(error, port));
+    Server.on('listening', this.onListening.bind(Server));
 }
 
 module.exports = {
-  onError,
-  onListening,
-  bind,
+    onError,
+    onListening,
+    bind,
 };
