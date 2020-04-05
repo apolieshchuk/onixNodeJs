@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const BooksRouter = require('../components/Books/router');
+const path = require('path');
 
 module.exports = {
   /**
@@ -21,6 +22,10 @@ module.exports = {
          * @param {callback} middleware - Express middleware.
          */
     app.use('/v1/books', BooksRouter);
+
+    app.get('/', (req, res) => {
+      res.sendFile(path.join(__dirname + '/../../public/index.html'))
+    });
 
     /**
          * @description No results returned mean the object is not found
