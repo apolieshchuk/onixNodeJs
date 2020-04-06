@@ -1,17 +1,18 @@
-const bodyParser = require('body-parser');
-const compression = require('compression');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const helmet = require('helmet');
+import * as bodyParser from 'body-parser';
+import * as compression from 'compression';
+import * as cookieParser from 'cookie-parser';
+import * as cors from 'cors';
+import * as helmet from 'helmet';
+import * as express from 'express';
 
-module.exports = {
+export default class Middleware {
   /**
-     * @function
-     * @description express middleware
-     * @param {express.Application} app
-     * @returns void
-     */
-  init(app) {
+   * @function
+   * @description express middleware
+   * @param {express.Application} app
+   * @returns void
+   */
+  public static init(app: express.Application): void {
     app.use(
       bodyParser.urlencoded({
         extended: true,
@@ -28,17 +29,17 @@ module.exports = {
     // can be used to enable CORS with various options
     app.use(cors());
     // cors
-    app.use((req, res, next) => {
+    app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
       res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS ');
       res.header('Access-Control-Allow-Credentials', '*');
       res.header(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With,'
-                + ' Content-Type, Accept,'
-                + ' Authorization,'
-                + ' Access-Control-Allow-Credentials',
+          + ' Content-Type, Accept,'
+          + ' Authorization,'
+          + ' Access-Control-Allow-Credentials',
       );
       next();
     });
-  },
-};
+  }
+}

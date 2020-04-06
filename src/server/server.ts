@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 import middleware from '../config/middleware';
 import routes from '../config/router';
 
@@ -6,7 +6,7 @@ import routes from '../config/router';
  * @type {express}
  * @constant {express.Application}
  */
-const app: express.Express = express();
+const app: express.Application = express();
 
 /**
  * @description express.Application Middleware
@@ -23,4 +23,4 @@ routes.init(app);
  */
 app.set('port', process.env.PORT || 3000);
 
-module.exports = app;
+export default app;

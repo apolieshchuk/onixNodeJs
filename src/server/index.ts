@@ -1,7 +1,7 @@
-import http from 'http';
-import events from './events';
+import * as http from 'http';
+import * as events from './events';
 import server from './server';
 
-const port = server.get('port');
+const port: number|string|boolean = server.get('port');
 
 events.bind(http.createServer(server).listen(port), port);

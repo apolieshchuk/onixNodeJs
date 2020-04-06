@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
+const middleware = require("../config/middleware");
+const routes = require("../config/router");
+const app = express();
+middleware.init(app);
+routes.init(app);
+app.set('port', process.env.PORT || 3000);
+exports.default = app;
