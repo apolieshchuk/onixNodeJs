@@ -16,6 +16,9 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
   },
+  rules: {
+    'no-console': 'off',
+  },
   plugins: [],
   overrides: [
     {
@@ -42,6 +45,7 @@ module.exports = {
         }
       },
       rules: {
+        'no-console': 'off',
         '@typescript-eslint/no-inferrable-types': 'off',
         '@typescript-eslint/typedef': [
           "error",
