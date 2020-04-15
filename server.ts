@@ -52,24 +52,25 @@ proxy.on('proxyRes', (
 
     // unzip response
     zlib.gunzip(body, (err: Error, buffer: Buffer) => {
-      if (!err) {
-        let html: string = buffer.toString();
-
-        // insert my text
-        html += `<h1 style="color: red; position: absolute;
-                    top: 20px; left: 50%; z-index: 9999;"> Hello world </h1>`;
-
-        // change length
-        // eslint-disable-next-line no-param-reassign
-        proxyRes.headers['content-length'] = String(html.length);
-
-        // compress and end response
-        const outStream: Readable = Readable.from(html);
-        res.writeHead(200, { 'content-encoding': 'gzip' });
-        outStream.pipe(zlib.createGzip()).pipe(res);
-      } else {
+      if (err) {
         res.end('error in unzip (gzip)');
       }
+
+      // get html
+      let html: string = buffer.toString();
+
+      // insert my text
+      html += `<h1 style="color: red; position: absolute;
+                    top: 20px; left: 50%; z-index: 9999;"> Hello world </h1>`;
+
+      // change length
+      // eslint-disable-next-line no-param-reassign
+      proxyRes.headers['content-length'] = String(html.length);
+
+      // compress and finish response
+      const outStream: Readable = Readable.from(html);
+      res.writeHead(200, { 'content-encoding': 'gzip' });
+      outStream.pipe(zlib.createGzip()).pipe(res);
     });
   });
 });
