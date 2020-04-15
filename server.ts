@@ -66,7 +66,7 @@ proxy.on('proxyRes', (
         // compress and end response
         const outStream: Readable = Readable.from(html);
         res.writeHead(200, { 'content-encoding': 'gzip' });
-        outStream.pipe(zlib.createGzip()).pipe(res, { end: true });
+        outStream.pipe(zlib.createGzip()).pipe(res);
       } else {
         res.end('error in unzip (gzip)');
       }
