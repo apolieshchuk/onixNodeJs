@@ -2,6 +2,7 @@ import * as http from 'http';
 import * as httpProxy from 'http-proxy';
 import * as url from 'url';
 import * as zlib from 'zlib';
+import { Readable } from 'stream';
 
 // proxy server
 const proxy: httpProxy = httpProxy.createProxyServer({});
@@ -13,7 +14,7 @@ const server: http.Server = http.createServer(
     const parsedUrl: url.UrlWithParsedQuery = url.parse(req.url, true);
     const host: string = String(parsedUrl.query.host);
 
-    // proxy options
+    // start proxy web + options
     proxy.web(req, res, {
       target: host === 'undefined' ? 'https://github.com' : host, // default host
       changeOrigin: true,
@@ -45,28 +46,31 @@ proxy.on('proxyRes', (
     console.log(`Zip type from response: ${zipType}`);
 
     // Check zip encoding
-    if (zipType === 'gzip') {
-      zlib.gunzip(body, (err: Error, buffer: Buffer) => {
-        if (!err) {
-          let html: string = buffer.toString();
-
-          // insert my text
-          html += `<h1 style="color: red; position: absolute;
-                    top: 20px; left: 50%; z-index: 9999;"> Hello world </h1>`;
-
-          // change length
-          // eslint-disable-next-line no-param-reassign
-          proxyRes.headers['content-length'] = String(html.length);
-
-          // return html
-          res.end(html);
-        } else {
-          res.end('error in unzip (gzip)');
-        }
-      });
-    } else {
+    if (zipType !== 'gzip') {
       res.end('Site encoding not supporting');
     }
+
+    // unzip response
+    zlib.gunzip(body, (err: Error, buffer: Buffer) => {
+      if (!err) {
+        let html: string = buffer.toString();
+
+        // insert my text
+        html += `<h1 style="color: red; position: absolute;
+                    top: 20px; left: 50%; z-index: 9999;"> Hello world </h1>`;
+
+        // change length
+        // eslint-disable-next-line no-param-reassign
+        proxyRes.headers['content-length'] = String(html.length);
+
+        // compress and end response
+        const outStream: Readable = Readable.from(html);
+        res.writeHead(200, { 'content-encoding': 'gzip' });
+        outStream.pipe(zlib.createGzip()).pipe(res, { end: true });
+      } else {
+        res.end('error in unzip (gzip)');
+      }
+    });
   });
 });
 
